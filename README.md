@@ -1,4 +1,3 @@
-````markdown
 # financas-api
 
 API REST desenvolvida com Spring Boot para gerenciamento de movimentações financeiras, permitindo o cadastro e a consulta de receitas e despesas organizadas por categorias.
@@ -78,6 +77,3 @@ Ou execute a classe principal da aplicação pela sua IDE.
 ## Licença
 
 Projeto desenvolvido para fins de estudo.
-
-```
-```
