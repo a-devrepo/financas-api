@@ -1,7 +1,7 @@
 package br.com.financasweb.controllers;
 
 import br.com.financasweb.dtos.CategoriaRequest;
-import br.com.financasweb.dtos.CategoriaResponse;
+import br.com.financasweb.exceptions.ValidacaoException;
 import br.com.financasweb.services.CategoriaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,13 @@ public class CategoriaController {
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<CategoriaResponse> post(@RequestBody CategoriaRequest request) {
-        var response = categoriaService.cadastrar(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<?> post(@RequestBody CategoriaRequest request) {
+
+        try {
+            var response = categoriaService.cadastrar(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (ValidacaoException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

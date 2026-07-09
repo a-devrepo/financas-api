@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,6 +43,38 @@ class FinancasapiApplicationTests {
 		assertNotNull(response.id());
 
 		assertEquals(request.nome(),response.nome());
+	}
+
+	@Test
+	@DisplayName("Deve retornar erro se o nome da categoria estiver vazio")
+	void validarNomeDaCategoriaTest() throws Exception {
+
+		var request = new CategoriaRequest("");
+
+		var result = mockMvc.perform(
+						post("/api/v1/categorias/criar")
+								.contentType("application/json")
+								.content(objectMapper.writeValueAsString(request)))
+				.andExpect(status().isBadRequest())
+				.andReturn();
+		var jsonContent = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		assertTrue(jsonContent.contains("O nome da categoria é obrigatório."));
+	}
+
+	@Test
+	@DisplayName("Deve retornar erro se o nome da categoria tiver menos de 6 caracteres")
+	void validarNomeDaCategoriaMinimoDeCaracteres() throws Exception {
+
+		var request = new CategoriaRequest("Test");
+
+		var result = mockMvc.perform(
+						post("/api/v1/categorias/criar")
+								.contentType("application/json")
+								.content(objectMapper.writeValueAsString(request)))
+				.andExpect(status().isBadRequest())
+				.andReturn();
+		var jsonContent = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+		assertTrue(jsonContent.contains("O nome da categoria deve ter no mínimo 6 caracteres."));
 	}
 
 }
