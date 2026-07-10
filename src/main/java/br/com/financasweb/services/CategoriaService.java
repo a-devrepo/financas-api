@@ -3,9 +3,13 @@ package br.com.financasweb.services;
 import br.com.financasweb.dtos.CategoriaRequest;
 import br.com.financasweb.dtos.CategoriaResponse;
 import br.com.financasweb.entities.Categoria;
+import br.com.financasweb.exceptions.RegistroNaoEncontradoException;
 import br.com.financasweb.exceptions.ValidacaoException;
 import br.com.financasweb.repositories.CategoriaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CategoriaService {
@@ -26,7 +30,43 @@ public class CategoriaService {
 
         categoria = categoriaRepository.save(categoria);
 
-        return new CategoriaResponse(categoria.getId(), categoria.getNome());
+        return toResponse(categoria);
+    }
+
+    public List<CategoriaResponse> consultar(){
+
+        return categoriaRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public CategoriaResponse obterPorId(UUID id) {
+
+        var categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Categoria não encontrada."));
+        return toResponse(categoria);
+    }
+
+    public CategoriaResponse excluir(UUID id) {
+
+        var categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Categoria não encontrada."));
+
+        categoriaRepository.delete(categoria);
+        return toResponse(categoria);
+    }
+
+    public CategoriaResponse alterar(UUID id, CategoriaRequest request) {
+
+        var categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Categoria não encontrada."));
+
+        categoria.setNome(request.nome());
+
+        categoria = categoriaRepository.save(categoria);
+
+        return toResponse(categoria);
     }
 
     private void validarCategoria(Categoria categoria) {
@@ -44,5 +84,9 @@ public class CategoriaService {
 
     private boolean nomeCategoriaNaoPossuiMinimoDeCaracteres(Categoria categoria) {
         return categoria.getNome().length() < 6;
+    }
+
+    private CategoriaResponse toResponse(Categoria categoria){
+        return new CategoriaResponse(categoria.getId(), categoria.getNome());
     }
 }
