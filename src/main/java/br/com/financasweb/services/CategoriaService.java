@@ -64,6 +64,8 @@ public class CategoriaService {
 
         categoria.setNome(request.nome());
 
+        validarCategoria(categoria);
+
         categoria = categoriaRepository.save(categoria);
 
         return toResponse(categoria);

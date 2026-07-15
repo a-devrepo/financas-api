@@ -34,12 +34,8 @@ public class CategoriaController {
     @GetMapping
     public ResponseEntity<?> get() {
 
-        try {
-            var response = categoriaService.consultar();
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        var response = categoriaService.consultar();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{id}")
@@ -59,6 +55,8 @@ public class CategoriaController {
         try {
             var response = categoriaService.alterar(id, request);
             return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (ValidacaoException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (RegistroNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
