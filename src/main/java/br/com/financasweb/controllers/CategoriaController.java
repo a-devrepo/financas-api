@@ -20,7 +20,7 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
-    @PostMapping("/criar")
+    @PostMapping
     public ResponseEntity<?> post(@RequestBody CategoriaRequest request) {
 
         try {
