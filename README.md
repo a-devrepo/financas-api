@@ -1,6 +1,6 @@
 # financas-api
 
-[![JDK]>=21](https://img.shields.io/badge/JDK-%3E%3D21-brightgreen)
+![JDK >=21](https://img.shields.io/badge/JDK-%3E%3D21-brightgreen)
 
 API REST desenvolvida com Spring Boot para gerenciamento de movimentações financeiras, permitindo o cadastro e a consulta de receitas e despesas organizadas por categorias.
 
