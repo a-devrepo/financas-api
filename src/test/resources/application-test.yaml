@@ -2,3 +2,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+  datasource:
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 30000
+      validation-timeout: 5000
+      max-lifetime: 30000

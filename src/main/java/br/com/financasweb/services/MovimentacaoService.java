@@ -66,7 +66,7 @@ public class MovimentacaoService {
                 .findById(request.categoriaId())
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Categoria não encontrada"));
 
-        movimentacao = toEntity(request, categoria);
+        updateEntity(movimentacao, request, categoria);
 
         validarMovimentacao(movimentacao);
 
@@ -145,6 +145,14 @@ public class MovimentacaoService {
         movimentacao.setTipoMovimentacao(TipoMovimentacao.valueOf(request.tipo()));
         movimentacao.setCategoria(categoria);
         return movimentacao;
+    }
+
+    private void updateEntity(Movimentacao movimentacao, MovimentacaoRequest request, Categoria categoria) {
+        movimentacao.setNome(request.nome());
+        movimentacao.setData(request.data());
+        movimentacao.setValor(BigDecimal.valueOf(request.valor()));
+        movimentacao.setTipoMovimentacao(TipoMovimentacao.valueOf(request.tipo()));
+        movimentacao.setCategoria(categoria);
     }
 
     private MovimentacaoResponse toResponse(Movimentacao movimentacao) {

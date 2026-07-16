@@ -1,4 +1,4 @@
-package br.com.financasweb;
+package br.com.financasweb.controllers;
 
 import br.com.financasweb.configurations.AbstractIntegrationTest;
 import br.com.financasweb.dtos.CategoriaRequest;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class FinancasapiApplicationTests extends AbstractIntegrationTest {
+class CategoriaControllerTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -34,7 +34,7 @@ class FinancasapiApplicationTests extends AbstractIntegrationTest {
 		var request = new CategoriaRequest("Categoria teste");
 
 		var result = mockMvc.perform(
-				post("/api/v1/categorias/criar")
+				post("/api/v1/categorias")
 						.contentType("application/json")
 						.content(objectMapper.writeValueAsString(request)))
 				.andExpect(status().isCreated())
@@ -54,7 +54,7 @@ class FinancasapiApplicationTests extends AbstractIntegrationTest {
 		var request = new CategoriaRequest("Categoria lista");
 
 		mockMvc.perform(
-				post("/api/v1/categorias/criar")
+				post("/api/v1/categorias")
 					.contentType("application/json")
 					.content(objectMapper.writeValueAsString(request)))
 			.andExpect(status().isCreated());
@@ -83,7 +83,7 @@ class FinancasapiApplicationTests extends AbstractIntegrationTest {
 
 		var request = new CategoriaRequest("Categoria por id");
 		var createResult = mockMvc.perform(
-				post("/api/v1/categorias/criar")
+				post("/api/v1/categorias")
 						.contentType("application/json")
 						.content(objectMapper.writeValueAsString(request)))
 				.andExpect(status().isCreated())
@@ -111,7 +111,7 @@ class FinancasapiApplicationTests extends AbstractIntegrationTest {
 		var request = new CategoriaRequest("Categoria alterar");
 
 		var result = mockMvc.perform(
-				post("/api/v1/categorias/criar")
+				post("/api/v1/categorias")
 					.contentType("application/json")
 					.content(objectMapper.writeValueAsString(request)))
 			.andExpect(status().isCreated())
@@ -142,7 +142,7 @@ class FinancasapiApplicationTests extends AbstractIntegrationTest {
 		var request = new CategoriaRequest("Categoria excluir");
 
 		var result = mockMvc.perform(
-				post("/api/v1/categorias/criar")
+				post("/api/v1/categorias")
 					.contentType("application/json")
 					.content(objectMapper.writeValueAsString(request)))
 			.andExpect(status().isCreated())
@@ -200,7 +200,7 @@ class FinancasapiApplicationTests extends AbstractIntegrationTest {
 		var request = new CategoriaRequest("");
 
 		var result = mockMvc.perform(
-						post("/api/v1/categorias/criar")
+						post("/api/v1/categorias")
 								.contentType("application/json")
 								.content(objectMapper.writeValueAsString(request)))
 				.andExpect(status().isBadRequest())
@@ -216,7 +216,7 @@ class FinancasapiApplicationTests extends AbstractIntegrationTest {
 		var request = new CategoriaRequest("Test");
 
 		var result = mockMvc.perform(
-						post("/api/v1/categorias/criar")
+						post("/api/v1/categorias")
 								.contentType("application/json")
 								.content(objectMapper.writeValueAsString(request)))
 				.andExpect(status().isBadRequest())
@@ -225,3 +225,4 @@ class FinancasapiApplicationTests extends AbstractIntegrationTest {
 		assertTrue(jsonContent.contains("O nome da categoria deve ter no mínimo 6 caracteres."));
 	}
 }
+
